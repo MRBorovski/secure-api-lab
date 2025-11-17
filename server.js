@@ -9,7 +9,21 @@ const PORT = 3000;
 // Дозволяє працювати з JSON у POST запитах
 app.use(express.json());
 
+
 // --- MIDDLEWARE ---
+// Логування
+const loggingMiddleware = (req, res, next) => {
+  const timestamp = new Date().toISOString();
+  const method = req.method;
+  const url = req.url;
+
+  console.log(`[${timestamp}] ${method} ${url}`);
+
+  next();
+};
+
+app.use(loggingMiddleware);
+
 // Аутентифікація
 const authMiddleware = (req, res, next) => {
   const login = req.headers['x-login'];
